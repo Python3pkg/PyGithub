@@ -119,7 +119,7 @@ class IssueComment(github.GithubObject.CompletableGithubObject):
         :param body: string
         :rtype: None
         """
-        assert isinstance(body, (str, unicode)), body
+        assert isinstance(body, str), body
         post_parameters = {
             "body": body,
         }

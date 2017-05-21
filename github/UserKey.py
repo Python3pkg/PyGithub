@@ -94,8 +94,8 @@ class UserKey(github.GithubObject.CompletableGithubObject):
         :param key: string
         :rtype: None
         """
-        assert title is github.GithubObject.NotSet or isinstance(title, (str, unicode)), title
-        assert key is github.GithubObject.NotSet or isinstance(key, (str, unicode)), key
+        assert title is github.GithubObject.NotSet or isinstance(title, str), title
+        assert key is github.GithubObject.NotSet or isinstance(key, str), key
         post_parameters = dict()
         if title is not github.GithubObject.NotSet:
             post_parameters["title"] = title

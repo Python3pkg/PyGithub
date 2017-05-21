@@ -34,12 +34,12 @@
 # ##############################################################################
 
 import logging
-import httplib
+import http.client
 import base64
-import urllib
-import urlparse
+import urllib.request, urllib.parse, urllib.error
+import urllib.parse
 import sys
-import Consts
+from . import Consts
 import re
 import os
 
@@ -51,12 +51,12 @@ if atLeastPython26:
 else:  # pragma no cover (Covered by all tests with Python 2.5)
     import simplejson as json  # pragma no cover (Covered by all tests with Python 2.5)
 
-import GithubException
+from . import GithubException
 
 
 class Requester:
-    __httpConnectionClass = httplib.HTTPConnection
-    __httpsConnectionClass = httplib.HTTPSConnection
+    __httpConnectionClass = http.client.HTTPConnection
+    __httpsConnectionClass = http.client.HTTPSConnection
 
     @classmethod
     def injectConnectionClasses(cls, httpConnectionClass, httpsConnectionClass):
@@ -65,8 +65,8 @@ class Requester:
 
     @classmethod
     def resetConnectionClasses(cls):
-        cls.__httpConnectionClass = httplib.HTTPConnection
-        cls.__httpsConnectionClass = httplib.HTTPSConnection
+        cls.__httpConnectionClass = http.client.HTTPConnection
+        cls.__httpsConnectionClass = http.client.HTTPSConnection
 
     #############################################################
     # For Debug
@@ -141,7 +141,7 @@ class Requester:
             self.__authorizationHeader = None
 
         self.__base_url = base_url
-        o = urlparse.urlparse(base_url)
+        o = urllib.parse.urlparse(base_url)
         self.__hostname = o.hostname
         self.__port = o.port
         self.__prefix = o.path
@@ -203,7 +203,7 @@ class Requester:
                 data = data.decode("utf-8")  # pragma no cover (Covered by Issue142.testDecodeJson with Python 3)
             try:
                 return json.loads(data)
-            except ValueError, e:
+            except ValueError as e:
                 return {'data': data}
 
     def requestJson(self, verb, url, parameters=None, headers=None, input=None, cnx=None):
@@ -218,7 +218,7 @@ class Requester:
             eol = "\r\n"
 
             encoded_input = ""
-            for name, value in input.iteritems():
+            for name, value in input.items():
                 encoded_input += "--" + boundary + eol
                 encoded_input += "Content-Disposition: form-data; name=\"" + name + "\"" + eol
                 encoded_input += eol
@@ -304,7 +304,7 @@ class Requester:
         if url.startswith("/"):
             url = self.__prefix + url
         else:
-            o = urlparse.urlparse(url)
+            o = urllib.parse.urlparse(url)
             assert o.hostname == self.__hostname
             assert o.path.startswith(self.__prefix)
             assert o.port == self.__port
@@ -317,7 +317,7 @@ class Requester:
         if len(parameters) == 0:
             return url
         else:
-            return url + "?" + urllib.urlencode(parameters)
+            return url + "?" + urllib.parse.urlencode(parameters)
 
     def __createConnection(self):
         kwds = {}
@@ -333,7 +333,7 @@ class Requester:
         ##
         proxy_uri = os.getenv('http_proxy') or os.getenv('HTTP_PROXY')
         if proxy_uri is not None:
-            url = urlparse.urlparse(proxy_uri)
+            url = urllib.parse.urlparse(proxy_uri)
             conn = self.__connectionClass(url.hostname, url.port, **kwds)
             headers = {}
             if url.username and url.password:

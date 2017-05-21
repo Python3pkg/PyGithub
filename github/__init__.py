@@ -34,11 +34,11 @@ All classes inherit from :class:`github.GithubObject.GithubObject`.
 
 import logging
 
-from MainClass import Github, GithubIntegration
-from GithubException import GithubException, BadCredentialsException, UnknownObjectException, BadUserAgentException, RateLimitExceededException, BadAttributeException
-from InputFileContent import InputFileContent
-from InputGitAuthor import InputGitAuthor
-from InputGitTreeElement import InputGitTreeElement
+from .MainClass import Github, GithubIntegration
+from .GithubException import GithubException, BadCredentialsException, UnknownObjectException, BadUserAgentException, RateLimitExceededException, BadAttributeException
+from .InputFileContent import InputFileContent
+from .InputGitAuthor import InputGitAuthor
+from .InputGitTreeElement import InputGitTreeElement
 
 
 def enable_console_debug_logging():  # pragma no cover (Function useful only outside test environment)

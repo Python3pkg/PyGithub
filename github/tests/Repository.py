@@ -22,7 +22,7 @@
 #                                                                              #
 # ##############################################################################
 
-import Framework
+from . import Framework
 
 import github
 import datetime
@@ -102,13 +102,13 @@ class Repository(Framework.TestCase):
         raised = False
         try:
             self.repo.protect_branch("", True, "everyone", ["test"])
-        except github.GithubException, exception:
+        except github.GithubException as exception:
             raised = True
             self.assertEqual(exception.status, 404)
             self.assertEqual(
                 exception.data, {
-                    u'documentation_url': u'https://developer.github.com/v3/repos/#get-branch',
-                    u'message': u'Branch not found'
+                    'documentation_url': 'https://developer.github.com/v3/repos/#get-branch',
+                    'message': 'Branch not found'
                 }
             )
             self.assertTrue(raised)
@@ -117,13 +117,13 @@ class Repository(Framework.TestCase):
         raised = False
         try:
             self.repo.protect_branch("master", True, "everyone")
-        except github.GithubException, exception:
+        except github.GithubException as exception:
             raised = True
             self.assertEqual(exception.status, 422)
             self.assertEqual(
                 exception.data, {
-                    u'documentation_url': u'https://developer.github.com/v3',
-                    u'message': u'Invalid request.\n\n"contexts" wasn\'t supplied.'
+                    'documentation_url': 'https://developer.github.com/v3',
+                    'message': 'Invalid request.\n\n"contexts" wasn\'t supplied.'
                 }
             )
             self.assertTrue(raised)
@@ -132,20 +132,20 @@ class Repository(Framework.TestCase):
         raised = False
         try:
             self.repo.protect_branch("master", True, "", ["test"])
-        except github.GithubException, exception:
+        except github.GithubException as exception:
             raised = True
             self.assertEqual(exception.status, 422)
             self.assertEqual(
                 exception.data, {
-                    u'documentation_url':
-                    u'https://developer.github.com/v3/repos/#enabling-and-disabling-branch-protection',
-                    u'message': u'Validation Failed',
-                    u'errors': [
+                    'documentation_url':
+                    'https://developer.github.com/v3/repos/#enabling-and-disabling-branch-protection',
+                    'message': 'Validation Failed',
+                    'errors': [
                         {
-                            u'field': u'required_status_checks_enforcement_level',
-                            u'message': u"required_status_checks_enforcement_level enforcement level '%s' is not valid",
-                            u'code': u'custom',
-                            u'resource': u'ProtectedBranch'
+                            'field': 'required_status_checks_enforcement_level',
+                            'message': "required_status_checks_enforcement_level enforcement level '%s' is not valid",
+                            'code': 'custom',
+                            'resource': 'ProtectedBranch'
                         }
                     ]
                 }
@@ -442,12 +442,12 @@ class Repository(Framework.TestCase):
             repo.get_stargazers_with_dates(),
             lambda stargazer: (stargazer.starred_at, stargazer.user.login),
             [
-                (datetime.datetime(2014, 8, 13, 19, 22, 5), u'sAlexander'),
-                (datetime.datetime(2014, 10, 15, 5, 2, 30), u'ThomasG77'),
-                (datetime.datetime(2015, 4, 14, 15, 22, 40), u'therusek'),
-                (datetime.datetime(2015, 4, 29, 0, 9, 40), u'athomann'),
-                (datetime.datetime(2015, 4, 29, 14, 26, 46), u'jcapron'),
-                (datetime.datetime(2015, 5, 9, 19, 14, 45), u'JoePython1')
+                (datetime.datetime(2014, 8, 13, 19, 22, 5), 'sAlexander'),
+                (datetime.datetime(2014, 10, 15, 5, 2, 30), 'ThomasG77'),
+                (datetime.datetime(2015, 4, 14, 15, 22, 40), 'therusek'),
+                (datetime.datetime(2015, 4, 29, 0, 9, 40), 'athomann'),
+                (datetime.datetime(2015, 4, 29, 14, 26, 46), 'jcapron'),
+                (datetime.datetime(2015, 5, 9, 19, 14, 45), 'JoePython1')
             ]
         )
 
@@ -558,7 +558,7 @@ class Repository(Framework.TestCase):
         raised = False
         try:
             commit = self.repo.merge("branchForBase", "branchForHead")
-        except github.GithubException, exception:
+        except github.GithubException as exception:
             raised = True
             self.assertEqual(exception.status, 409)
             self.assertEqual(exception.data, {"message": "Merge conflict"})
@@ -581,7 +581,7 @@ class Repository(Framework.TestCase):
         raised = False
         try:
             self.repo.subscribe_to_hub("non-existing-event", "http://requestb.in/1bc1sc61")
-        except github.GithubException, exception:
+        except github.GithubException as exception:
             raised = True
             self.assertEqual(exception.status, 422)
             self.assertEqual(exception.data, {"message": "Invalid event: \"non-existing-event\""})

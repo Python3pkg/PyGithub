@@ -105,9 +105,9 @@ def parseLibrary():
 
 def printUrls(title, urls):
     if len(urls) > 0:
-        print len(urls), "URLs", title + ":"
-        print " ", "\n  ".join(url + " (" + verb + ")" for url, verb in sorted(urls))
-        print
+        print(len(urls), "URLs", title + ":")
+        print(" ", "\n  ".join(url + " (" + verb + ")" for url, verb in sorted(urls)))
+        print()
 
 
 def main():
@@ -118,7 +118,7 @@ def main():
     for key in set(lib) & set(ref):
         (url, verb) = key
         if ref[key] is not None and lib[key] != ref[key] and not lib[key].startswith(ref[key] + "/#"):
-            print "sed -i \"s@:calls: ." + verb + " " + url + " ." + lib[key] + ".._" + "@:calls: \\`" + verb + " " + url + " \\<" + ref[key] + "\\>\\`_@\" github/*.py"
+            print("sed -i \"s@:calls: ." + verb + " " + url + " ." + lib[key] + ".._" + "@:calls: \\`" + verb + " " + url + " \\<" + ref[key] + "\\>\\`_@\" github/*.py")
 
 
 if __name__ == "__main__":

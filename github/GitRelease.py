@@ -98,8 +98,8 @@ class GitRelease(github.GithubObject.CompletableGithubObject):
         return True
 
     def update_release(self, name, message, draft=False, prerelease=False):
-        assert isinstance(name, (str, unicode)), name
-        assert isinstance(message, (str, unicode)), message
+        assert isinstance(name, str), name
+        assert isinstance(message, str), message
         assert isinstance(draft, bool), draft
         assert isinstance(prerelease, bool), prerelease
         post_parameters = {

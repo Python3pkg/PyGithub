@@ -29,7 +29,7 @@ import sys
 
 import github
 
-import Framework
+from . import Framework
 
 atMostPython32 = sys.hexversion < 0x03030000
 

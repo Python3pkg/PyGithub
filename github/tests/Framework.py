@@ -28,7 +28,7 @@
 import os
 import sys
 import unittest
-import httplib
+import http.client
 import traceback
 
 import github
@@ -86,7 +86,7 @@ class RecordingConnection:  # pragma no cover (Class useful only when recording 
         self.__cnx = self._realConnection(host, port, *args, **kwds)
 
     def request(self, verb, url, input, headers):
-        print verb, url, input, headers,
+        print(verb, url, input, headers, end=' ')
         self.__cnx.request(verb, url, input, headers)
         fixAuthorizationHeader(headers)
         self.__writeLine(self.__protocol)
@@ -101,7 +101,7 @@ class RecordingConnection:  # pragma no cover (Class useful only when recording 
         res = self.__cnx.getresponse()
 
         status = res.status
-        print "=>", status
+        print("=>", status)
         headers = res.getheaders()
         output = res.read()
 
@@ -120,14 +120,14 @@ class RecordingConnection:  # pragma no cover (Class useful only when recording 
 
 
 class RecordingHttpConnection(RecordingConnection):  # pragma no cover (Class useful only when recording new tests, not used during automated tests)
-    _realConnection = httplib.HTTPConnection
+    _realConnection = http.client.HTTPConnection
 
     def __init__(self, file, *args, **kwds):
         RecordingConnection.__init__(self, file, "http", *args, **kwds)
 
 
 class RecordingHttpsConnection(RecordingConnection):  # pragma no cover (Class useful only when recording new tests, not used during automated tests)
-    _realConnection = httplib.HTTPSConnection
+    _realConnection = http.client.HTTPSConnection
 
     def __init__(self, file, *args, **kwds):
         RecordingConnection.__init__(self, file, "https", *args, **kwds)

@@ -28,7 +28,7 @@ import github
 import sys
 import pickle
 
-import Framework
+from . import Framework
 
 atLeastPython26 = sys.hexversion >= 0x02060000
 atMostPython2 = sys.hexversion < 0x03000000
@@ -39,7 +39,7 @@ class Exceptions(Framework.TestCase):  # To stay compatible with Python 2.6, we 
         raised = False
         try:
             self.g.get_user().create_key("Bad key", "xxx")
-        except github.GithubException, exception:
+        except github.GithubException as exception:
             raised = True
             self.assertEqual(exception.status, 422)
             self.assertEqual(
@@ -63,7 +63,7 @@ class Exceptions(Framework.TestCase):  # To stay compatible with Python 2.6, we 
         raised = False
         try:
             self.g.get_user("jacquev6")
-        except github.GithubException, exception:
+        except github.GithubException as exception:
             raised = True
             self.assertEqual(exception.status, 503)
             self.assertEqual(
@@ -78,7 +78,7 @@ class Exceptions(Framework.TestCase):  # To stay compatible with Python 2.6, we 
         raised = False
         try:
             self.g.get_user().get_repo("Xxx")
-        except github.GithubException, exception:
+        except github.GithubException as exception:
             raised = True
             self.assertEqual(exception.status, 404)
             self.assertEqual(exception.data, {"message": "Not Found"})
@@ -92,7 +92,7 @@ class Exceptions(Framework.TestCase):  # To stay compatible with Python 2.6, we 
         raised = False
         try:
             self.g.get_user("ThisUserShouldReallyNotExist")
-        except github.GithubException, exception:
+        except github.GithubException as exception:
             raised = True
             self.assertEqual(exception.status, 404)
             self.assertEqual(exception.data, {"message": "Not Found"})
@@ -106,7 +106,7 @@ class Exceptions(Framework.TestCase):  # To stay compatible with Python 2.6, we 
         raised = False
         try:
             github.Github("BadUser", "BadPassword").get_user().login
-        except github.GithubException, exception:
+        except github.GithubException as exception:
             raised = True
             self.assertEqual(exception.status, 401)
             self.assertEqual(exception.data, {"message": "Bad credentials"})

@@ -25,7 +25,7 @@
 
 # #193: Line endings should be linux style
 
-import Framework
+from . import Framework
 import github
 
 

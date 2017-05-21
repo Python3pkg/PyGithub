@@ -24,7 +24,7 @@
 #                                                                              #
 # ##############################################################################
 
-import Framework
+from . import Framework
 
 class PullRequestReview(Framework.TestCase):
     def setUp(self):

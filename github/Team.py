@@ -183,8 +183,8 @@ class Team(github.GithubObject.CompletableGithubObject):
         :param permission: string
         :rtype: None
         """
-        assert isinstance(name, (str, unicode)), name
-        assert permission is github.GithubObject.NotSet or isinstance(permission, (str, unicode)), permission
+        assert isinstance(name, str), name
+        assert permission is github.GithubObject.NotSet or isinstance(permission, str), permission
         post_parameters = {
             "name": name,
         }
